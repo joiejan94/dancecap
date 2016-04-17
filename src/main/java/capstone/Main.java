@@ -12,11 +12,16 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 public class Main {
 	
     public static void main(String[] args) {
-    	Database db = new Database("jdbc:mysql://localhost/","root","cheetahs");
+    	Scanner sc = new Scanner(System.in);
+    	System.out.println("mysql username and password: ");
+    	String user = sc.next();
+    	String pass = sc.next();
+    	Database db = new Database("jdbc:mysql://localhost/",user,pass);
         get("/", (request, response) -> "welcome");
         get("/members", (request, response) -> {
             Map<String, Object> attributes = new HashMap<>();
