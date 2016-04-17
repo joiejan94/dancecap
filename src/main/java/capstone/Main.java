@@ -1,4 +1,4 @@
-package dancecap;
+package capstone;
 
 import members.Student;
 import members.Style;

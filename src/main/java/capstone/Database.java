@@ -1,4 +1,4 @@
-package dancecap;
+package capstone;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
