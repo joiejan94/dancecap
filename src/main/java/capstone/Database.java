@@ -81,7 +81,7 @@ public class Database {
 		try {
 			String majors = "";
 			for (String maj: stu.getMajor()) {
-				majors += ", "+ maj;
+				majors += "   "+ maj;
 			}
 			for (Style st: stu.getStyle()) {
 				statement.executeUpdate("INSERT INTO `dancecap`.`Student` (`id`, `name`, `major`, `year`, `style`)"

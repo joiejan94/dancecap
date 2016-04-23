@@ -28,11 +28,10 @@ public class Main {
             try {
               db.connect();
               db.createDatabase();
-              
-              Student student = new Student("Robbie McNew", new Style[]{Style.JAZZ, Style.HIPHOP}, 123456789, new String[]{"Chem E","Mech E"}, 2016);
+              Student student = new Student("Jeff Volz", new Style[]{Style.BALLET, Style.TAP}, 701557689, new String[]{"Comp E"}, 2016);
 //              db.addStudent(701581208, "Johanna Jan", "Computer Science", 2016, Style.JAZZ);
               db.addStudent(student);
-              ResultSet rs = db.getStatement().executeQuery("SELECT distinct name, style,major FROM Student");
+              ResultSet rs = db.getStatement().executeQuery("SELECT distinct name, style ,major FROM Student");
 
               ArrayList<String> output = new ArrayList<String>();
               while (rs.next()) {

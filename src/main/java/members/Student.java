@@ -2,7 +2,6 @@ package members;
 import members.Year; 
 
 public class Student extends Person {
-	private int ID;
 	private String[] major;
 	private int year;
 	
@@ -10,10 +9,6 @@ public class Student extends Person {
 		super(name,style,ID);
 		this.major = major;
 		this.year = year;
-	}
-
-	public int getID() {
-		return ID;
 	}
 
 	public String[] getMajor() {
