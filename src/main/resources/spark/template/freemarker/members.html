@@ -19,5 +19,38 @@
 
 </div>
 
+<div class = "buttons">
+	<button id="student" type="button" onclick = addStudent()>Add Student</button>
+		
+</div>
+
+<div>
+<form id="addStuForm" method = "post">
+ID: <input type="text" name="id"></input> <br>
+Full Name (first and last): <input type="text" name="name"><br>
+<input type="checkbox" name="style" value="Hip Hop"> Hip Hop 
+<input type="checkbox" name="style" value="Jazz"> Jazz 
+<input type="checkbox" name="style" value="Ballet"> Ballet
+<input type="checkbox" name="style" value="Contemporary"> Contemporary
+<input type="checkbox" name="style" value="Modern"> Modern
+<input type="checkbox" name="style" value="Tap"> Tap
+<input type="checkbox" name="style" value="Theatre"> Theatre
+<input type="checkbox" name="style" value="Other"> Other<br> 
+Majors: <input type="text" name="Majors"><br>
+Expected Graduation Year: <input type="text" name="year"><br>
+<button type="submit" value="Submit">Submit</button>
+<button type="reset" value="Reset">Reset</button>
+</form>
+</div>
+
+<script>
+
+	function addStudent() {
+		// get the form to hide/show up
+		var form = document.getElementById('addStuForm');
+		form.setAttribute('hidden','false');
+	    
+	}
+</script>
 </body>
 </html>
