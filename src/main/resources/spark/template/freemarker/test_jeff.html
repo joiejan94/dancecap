@@ -2,6 +2,7 @@
 <html>
 <head>
   <!--<#include "header.ftl">-->
+  <h1>Students</h1>
 </head>
 
 <style>
@@ -30,16 +31,7 @@ if (item) {
 
   <!--<#include "nav.ftl">-->
 
-<div class="container">
 
-  <h1>Database Output</h1>
-    <ul>
-    <#list results as x>
-      <li> ${x} </li>
-    </#list>
-    </ul>
-
-</div>
 
 <input type="button" onclick="unhide(this, 'addStuDiv') " value="Add Student">
 
@@ -88,6 +80,16 @@ if (item) {
 <button type="submit" value="Submit">Submit</button>
 <button type="reset" value="Reset">Reset</button>
 </form>
+</div>
+
+<div class="container">
+
+    <ul>
+    <#list results as x>
+      ${x}
+    </#list>
+    </ul>
+
 </div>
 
 </body>
