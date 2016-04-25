@@ -2,15 +2,89 @@
 <html>
 <head>
   <!--<#include "header.ftl">-->
+  <h1>Students</h1>
 </head>
+
+<style>
+.hidden{
+    display:none;
+}
+.unhidden{
+    display:block;
+}
+</style>
+<script type="text/javascript">
+function unhide(clickedButton, divID) {
+var item = document.getElementById(divID);
+if (item) {
+    if(item.className=='hidden'){
+        item.className = 'unhidden' ;
+        clickedButton.value = 'Cancel'
+    }else{
+        item.className = 'hidden';
+        clickedButton.value = 'Add Student'
+    }
+}}
+</script>
 
 <body>
 
   <!--<#include "nav.ftl">-->
 
+
+
+<input type="button" onclick="unhide(this, 'addStuDiv') " value="Add Student">
+
+
+<div id="addStuDiv" class ="hidden">
+<form id="addStuForm" method = "post">
+
+<table style="width:360px" border ="0">
+  <tr>
+    <td align="right">Student ID:</td>
+    <td><input type="text" name="id"></input></td>
+  </tr>
+  <tr>
+    <td align="right">Full Name (first and last):</td>
+    <td><input type="text" name="name"></input></td>
+  </tr>
+  <tr>
+    <td align="right">Major(s):</td>
+    <td><input type="text" name="Majors"></input></td>
+  </tr>
+  <tr>
+    <td align="right">Expected Graduation Year:</td>
+    <td><input type="text" name="year"></input></td>
+  </tr>
+</table>
+
+<table id="studentTable"style="width:250px" border ="0">
+  <tr>
+    <td><input type="checkbox" name="style" value="Hip Hop"> Hip Hop</td>
+    <td><input type="checkbox" name="style" value="Jazz"> Jazz</td> 
+  </tr>
+  <tr>
+    <td><input type="checkbox" name="style" value="Ballet"> Ballet</td>
+    <td><input type="checkbox" name="style" value="Contemporary"> Contemporary</td>
+  </tr>
+  <tr>
+    <td><input type="checkbox" name="style" value="Modern"> Modern</td>
+    <td><input type="checkbox" name="style" value="Tap"> Tap</td>
+  </tr>
+  <tr>
+    <td><input type="checkbox" name="style" value="Theatre"> Theatre</td>
+    <td><input type="checkbox" name="style" value="Other"> Other</td>
+  </tr>
+</table><br>
+
+<button type="submit" value="Submit">Submit</button>
+<button type="reset" value="Reset">Reset</button>
+</form>
+</div>
+
+
 <div class="container">
 
-  <h1>Database Output</h1>
     <ul>
     <#list results as x>
       <li> ${x} </li>
@@ -19,38 +93,5 @@
 
 </div>
 
-<div class = "buttons">
-	<button id="student" type="button" onclick = addStudent()>Add Student</button>
-		
-</div>
-
-<div>
-<form id="addStuForm" method = "post">
-ID: <input type="text" name="id"></input> <br>
-Full Name (first and last): <input type="text" name="name"><br>
-<input type="checkbox" name="style" value="Hip Hop"> Hip Hop 
-<input type="checkbox" name="style" value="Jazz"> Jazz 
-<input type="checkbox" name="style" value="Ballet"> Ballet
-<input type="checkbox" name="style" value="Contemporary"> Contemporary
-<input type="checkbox" name="style" value="Modern"> Modern
-<input type="checkbox" name="style" value="Tap"> Tap
-<input type="checkbox" name="style" value="Theatre"> Theatre
-<input type="checkbox" name="style" value="Other"> Other<br> 
-Majors: <input type="text" name="Majors"><br>
-Expected Graduation Year: <input type="text" name="year"><br>
-<button type="submit" value="Submit">Submit</button>
-<button type="reset" value="Reset">Reset</button>
-</form>
-</div>
-
-<script>
-
-	function addStudent() {
-		// get the form to hide/show up
-		var form = document.getElementById('addStuForm');
-		form.setAttribute('hidden','false');
-	    
-	}
-</script>
 </body>
 </html>
