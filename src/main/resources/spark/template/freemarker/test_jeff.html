@@ -4,13 +4,10 @@
   <!--<#include "header.ftl">-->
 </head>
 
-
-
 <style>
 .hidden{
     display:none;
 }
-
 .unhidden{
     display:block;
 }
@@ -27,9 +24,7 @@ if (item) {
         clickedButton.value = 'Add Student'
     }
 }}
-
 </script>
-
 
 <body>
 
@@ -44,25 +39,52 @@ if (item) {
 
 <input type="button" onclick="unhide(this, 'addStuDiv') " value="Add Student">
 
+
 <div id="addStuDiv" class ="hidden">
 <form id="addStuForm" method = "post">
-ID: <input type="text" name="id"></input> <br>
-Full Name (first and last): <input type="text" name="name"><br>
-<input type="checkbox" name="style" value="Hip Hop"> Hip Hop 
-<input type="checkbox" name="style" value="Jazz"> Jazz 
-<input type="checkbox" name="style" value="Ballet"> Ballet
-<input type="checkbox" name="style" value="Contemporary"> Contemporary
-<input type="checkbox" name="style" value="Modern"> Modern
-<input type="checkbox" name="style" value="Tap"> Tap
-<input type="checkbox" name="style" value="Theatre"> Theatre
-<input type="checkbox" name="style" value="Other"> Other<br> 
-Majors: <input type="text" name="Majors"><br>
-Expected Graduation Year: <input type="text" name="year"><br>
+
+<table style="width:375px" border ="0">
+  <tr>
+    <td align="right">Student ID:</td>
+    <td><input type="text" name="id"></input></td>
+  </tr>
+  <tr>
+    <td align="right">Full Name (first and last):</td>
+    <td><input type="text" name="name"></input></td>
+  </tr>
+  <tr>
+    <td align="right">Major(s):</td>
+    <td><input type="text" name="Majors"></input></td>
+  </tr>
+  <tr>
+    <td align="right">Expected Graduation Year:</td>
+    <td><input type="text" name="year"></input></td>
+  </tr>
+</table>
+
+<table id="studentTable"style="width:250px" border ="0">
+  <tr>
+    <td><input type="checkbox" name="style" value="Hip Hop"> Hip Hop</td>
+    <td><input type="checkbox" name="style" value="Jazz"> Jazz</td> 
+  </tr>
+  <tr>
+    <td><input type="checkbox" name="style" value="Ballet"> Ballet</td>
+    <td><input type="checkbox" name="style" value="Contemporary"> Contemporary</td>
+  </tr>
+  <tr>
+    <td><input type="checkbox" name="style" value="Modern"> Modern</td>
+    <td><input type="checkbox" name="style" value="Tap"> Tap</td>
+  </tr>
+  <tr>
+    <td><input type="checkbox" name="style" value="Theatre"> Theatre</td>
+    <td><input type="checkbox" name="style" value="Other"> Other</td>
+  </tr>
+</table><br>
+
 <button type="submit" value="Submit">Submit</button>
 <button type="reset" value="Reset">Reset</button>
 </form>
 </div>
-
 
 </body>
 </html>
