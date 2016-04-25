@@ -55,6 +55,35 @@ public class Main {
         get("/performance", (req, res) -> "Performance");
         get("/academics", (req, res) -> "Acedemics");
 
+        //this can be removed later, I just want to use my own page for testing
+        get("/test_jeff", (request, response) -> {
+            Map<String, Object> attributes = new HashMap<>();
+            try {
+              db.connect();
+              db.createDatabase();
+              Student student = new Student("Jeff Volz", new Style[]{Style.BALLET, Style.TAP}, 701557689, new String[]{"Comp E"}, 2016);
+//              db.addStudent(701581208, "Johanna Jan", "Computer Science", 2016, Style.JAZZ);
+              db.addStudent(student);
+              ResultSet rs = db.getStatement().executeQuery("SELECT distinct name, style ,major FROM Student");
+
+              ArrayList<String> output = new ArrayList<String>();
+              while (rs.next()) {
+                output.add( "Students: " + rs.getString("name") + ", Style: " + rs.getString("style") + ", Major: " + rs.getString("major"));
+              }
+
+              attributes.put("results", output);
+              return new ModelAndView(attributes, "members.html");
+            } catch (Exception e) {
+              attributes.put("message", "There was an error: " + e);
+              System.out.println("SQLException: " + e.getMessage());
+              return new ModelAndView(attributes, "error.ftl");
+            } finally {
+              if (db.getConnection() != null) {
+            	  db.disconnect();
+              }
+            }
+          }, new FreeMarkerEngine());
+        
 //      get("/db", (req, res) -> {
 //      Connection connection = null;
 //      Map<String, Object> attributes = new HashMap<>();
