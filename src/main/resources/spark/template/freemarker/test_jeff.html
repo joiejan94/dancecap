@@ -4,6 +4,33 @@
   <!--<#include "header.ftl">-->
 </head>
 
+
+
+<style>
+.hidden{
+    display:none;
+}
+
+.unhidden{
+    display:block;
+}
+</style>
+<script type="text/javascript">
+function unhide(clickedButton, divID) {
+var item = document.getElementById(divID);
+if (item) {
+    if(item.className=='hidden'){
+        item.className = 'unhidden' ;
+        clickedButton.value = 'Cancel'
+    }else{
+        item.className = 'hidden';
+        clickedButton.value = 'Add Student'
+    }
+}}
+
+</script>
+
+
 <body>
 
   <!--<#include "nav.ftl">-->
@@ -11,20 +38,13 @@
 <div class="container">
 
   <h1>Database Output</h1>
-    <ul>
-    <#list results as x>
-      <li> ${x} </li>
-    </#list>
-    </ul>
+    <ul>List of dancers goes here</ul>
 
 </div>
 
-<div class = "buttons">
-	<button id="student" type="button" onclick = addStudent()>Add Student</button>
-		
-</div>
+<input type="button" onclick="unhide(this, 'addStuDiv') " value="Add Student">
 
-<div>
+<div id="addStuDiv" class ="hidden">
 <form id="addStuForm" method = "post">
 ID: <input type="text" name="id"></input> <br>
 Full Name (first and last): <input type="text" name="name"><br>
@@ -43,14 +63,6 @@ Expected Graduation Year: <input type="text" name="year"><br>
 </form>
 </div>
 
-<script>
 
-	function addStudent() {
-		// get the form to hide/show up
-		var form = document.getElementById('addStuForm');
-		form.setAttribute('hidden','false');
-	    
-	}
-</script>
 </body>
 </html>
