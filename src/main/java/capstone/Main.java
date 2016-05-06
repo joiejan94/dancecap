@@ -55,6 +55,17 @@ public class Main {
         get("/performance", (req, res) -> "Performance");
         get("/academics", (req, res) -> "Acedemics");
 
+        post("/testphp.php", (req, res) -> {
+        	Map<String, Object> attributes = new HashMap<>();
+            try {
+              return new ModelAndView(attributes, "testphp.php");
+            } catch (Exception e) {
+              attributes.put("message", "There was an error: " + e);
+              return new ModelAndView(attributes, "error.ftl");
+            } finally {
+
+              }
+          }, new FreeMarkerEngine());
         
         //this can be removed later, I just want to use my own page for testing
         get("/test_jeff", (request, response) -> {
