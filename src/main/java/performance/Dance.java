@@ -4,6 +4,7 @@ import members.Performer;
 
 import members.*;
 public class Dance {
+	private int id;
 	private String title;
 	private Style style;
 	private ArrayList<Person> choreographers;
@@ -11,7 +12,8 @@ public class Dance {
 	private Concert concert;
 	private int year;
 
-	public Dance(String title, Style style, ArrayList<Person> choreographers, ArrayList<Performer> dancers, int year) {
+	public Dance(int id, String title, Style style, ArrayList<Person> choreographers, ArrayList<Performer> dancers, int year) {
+		this.id = id;
 		this.title = title;
 		this.style = style;
 		this.choreographers = choreographers;
@@ -37,6 +39,10 @@ public class Dance {
 		else{
 			return false;
 		}
+	}
+	
+	public int getID(){
+		return id;
 	}
 	
 	public String getTitle() {
