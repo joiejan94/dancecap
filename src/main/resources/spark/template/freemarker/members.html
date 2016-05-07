@@ -2,7 +2,6 @@
 <html>
 <head>
   <!--<#include "header.ftl">-->
-  <h1>Students</h1>
 </head>
 
 <style>
@@ -19,10 +18,10 @@ var item = document.getElementById(divID);
 if (item) {
     if(item.className=='hidden'){
         item.className = 'unhidden' ;
-        clickedButton.value = 'Cancel'
+        clickedButton.value = 'Cancel';
     }else{
         item.className = 'hidden';
-        clickedButton.value = 'Add Student'
+        clickedButton.value = divID;
     }
 }}
 </script>
@@ -32,11 +31,12 @@ if (item) {
   <!--<#include "nav.ftl">-->
 
 
+<h1>Students</h1>
 
-<input type="button" onclick="unhide(this, 'addStuDiv') " value="Add Student">
+<input type="button" onclick="unhide(this, 'Add Student') " value="Add Student">
 
 
-<div id="addStuDiv" class ="hidden">
+<div id="Add Student" class ="hidden">
 <form id="addStuForm" method = "post" action="testingform.php">
 
 <table style="width:360px" border ="0">
@@ -82,11 +82,69 @@ if (item) {
 </form>
 </div>
 
-
-<div class="container">
+<div class="students">
 
     <ul>
-    <#list results as x>
+    <#list students as x>
+      <li> ${x} </li>
+    </#list>
+    </ul>
+
+</div>
+
+<br>
+
+<h1>Performers</h1>
+
+<input type="button" onclick="unhide(this, 'Add Performer') " value="Add Performer">
+
+
+<div id="Add Performer" class ="hidden">
+<form id="addPerformerForm" method = "post" action="testingform.php">
+
+<table style="width:360px" border ="0">
+  <tr>
+    <td align="right">Performer ID:</td>
+    <td><input type="text" name="id"></input></td>
+  </tr>
+  <tr>
+    <td align="right">Full Name (first and last):</td>
+    <td><input type="text" name="name"></input></td>
+  </tr>
+
+    <td align="right">Dances:</td>
+    <td><input type="text" name="dances"></input></td>
+  </tr>
+</table>
+
+<table id="performerTable"style="width:250px" border ="0">
+  <tr>
+    <td><input type="checkbox" name="style" value="Hip Hop"> Hip Hop</td>
+    <td><input type="checkbox" name="style" value="Jazz"> Jazz</td> 
+  </tr>
+  <tr>
+    <td><input type="checkbox" name="style" value="Ballet"> Ballet</td>
+    <td><input type="checkbox" name="style" value="Contemporary"> Contemporary</td>
+  </tr>
+  <tr>
+    <td><input type="checkbox" name="style" value="Modern"> Modern</td>
+    <td><input type="checkbox" name="style" value="Tap"> Tap</td>
+  </tr>
+  <tr>
+    <td><input type="checkbox" name="style" value="Theatre"> Theatre</td>
+    <td><input type="checkbox" name="style" value="Other"> Other</td>
+  </tr>
+</table><br>
+
+<button type="submit" value="Submit">Submit</button>
+<button type="reset" value="Reset">Reset</button>
+</form>
+</div>
+
+<div class="performers">
+
+    <ul>
+    <#list performers as x>
       <li> ${x} </li>
     </#list>
     </ul>

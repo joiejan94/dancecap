@@ -31,14 +31,26 @@ public class Main {
               db.createDatabase();
 //              Person human = new Person("Kimberly Iervoline",new Style[]{Style.HIPHOP},701346198);
               db.addPerson(701346198, "Kimberly Iervoline", Style.HIPHOP);
-              ResultSet rs = db.getStatement().executeQuery("SELECT distinct id, name, style FROM Person");
+              
+              ArrayList<String> students = new ArrayList<String>();
+              ArrayList<String> performers = new ArrayList<String>();
+              ResultSet rs_st = db.getStatement().executeQuery("SELECT distinct name, year, style "
+              		+ "FROM dancecap.Student s join dancecap.Person p where s.id = p.id;");
 
-              ArrayList<String> output = new ArrayList<String>();
-              while (rs.next()) {
-                output.add( "Person id:" + rs.getString("id") + ", name: " + rs.getString("name") + ", Style: " + rs.getString("style"));
+
+              while (rs_st.next()) {
+                students.add( "name: " + rs_st.getString("name") + ", year: " + rs_st.getString("year") + ", Style: " + rs_st.getString("style"));
               }
 
-              attributes.put("results", output);
+              ResultSet rs_per = db.getStatement().executeQuery("SELECT distinct name, dance "
+                		+ "FROM dancecap.Performer perf join dancecap.Person p where perf.id = p.id;");
+              
+              while (rs_per.next()) {
+                  performers.add( "name: " + rs_per.getString("name") + ", dance: " + rs_per.getString("dance"));
+
+              }
+              attributes.put("students", students);
+              attributes.put("performers", performers);
               return new ModelAndView(attributes, "members.html");
             } catch (Exception e) {
               attributes.put("message", "There was an error: " + e);
