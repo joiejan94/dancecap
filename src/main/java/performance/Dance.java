@@ -1,16 +1,17 @@
 package performance;
 import java.util.ArrayList;
+import members.Performer;
 
 import members.*;
 public class Dance {
 	private String title;
 	private Style style;
 	private ArrayList<Person> choreographers;
-	private ArrayList<Person> dancers;
+	private ArrayList<Performer> dancers;
 	private Concert concert;
 	private int year;
 
-	public Dance(String title, Style style, ArrayList<Person> choreographers, ArrayList<Person> dancers, int year) {
+	public Dance(String title, Style style, ArrayList<Person> choreographers, ArrayList<Performer> dancers, int year) {
 		this.title = title;
 		this.style = style;
 		this.choreographers = choreographers;
@@ -18,7 +19,7 @@ public class Dance {
 		this.year = year;
 	}
 
-	private boolean addDancer(Person dancer) {
+	private boolean addDancer(Performer dancer) {
 		if (!dancers.contains(dancer)) {
 			dancers.add(dancer);
 			return true;
@@ -50,7 +51,7 @@ public class Dance {
 		return choreographers;
 	}
 
-	public ArrayList<Person> getDancers() {
+	public ArrayList<Performer> getDancers() {
 		return dancers;
 	}
 

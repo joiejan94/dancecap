@@ -49,13 +49,29 @@ public class Database {
 			statement = connection.createStatement();
 			statement.executeUpdate("CREATE DATABASE IF NOT EXISTS dancecap");
 			statement.executeUpdate("USE dancecap");
-			statement.executeUpdate("CREATE TABLE IF NOT EXISTS `dancecap`.`Student` (" +
-          		  "`id` INT NOT NULL," +
-          		  "`name` VARCHAR(45) NOT NULL," +
-          		  "`major` VARCHAR(45) NULL," +
-          		  "`year` INT NULL," +
-          		  "`style` ENUM('HIPHOP', 'JAZZ', 'BALLET', 'CONTEMPORARY', 'MODERN', 'TAP', 'THEATRE', 'OTHER') NOT NULL," +
-          		  "PRIMARY KEY (`id`, `style`))");
+			statement.executeUpdate("CREATE TABLE IF NOT EXISTS `dancecap`.`Person` (" +
+					"`id` INT NOT NULL," +
+					"`name` VARCHAR(45) NOT NULL," + 
+					"`style` ENUM('JAZZ','HIPHOP','CONTEMPORARY','MODERN','THEATRE','TAP','BALLET','OTHER') NULL," +
+					"PRIMARY KEY (`id`));");
+			statement.executeUpdate("CREATE TABLE IF NOT EXISTS`dancecap`.`Student` (" +
+					"`id` INT NOT NULL," +
+					"`year` INT NOT NULL," +
+					"`major` VARCHAR(45) NULL," +
+					"PRIMARY KEY (`id`)," +
+					"CONSTRAINT `id_student`" +
+					"FOREIGN KEY (`id`) REFERENCES `dancecap`.`Person` (`id`) " +
+					"ON DELETE CASCADE" +
+					" ON UPDATE CASCADE);");
+			statement.executeUpdate("CREATE TABLE IF NOT EXISTS `dancecap`.`Performer` (" +
+					"`id` INT NOT NULL," +
+					"`dance` VARCHAR(45) NOT NULL," +
+					"PRIMARY KEY (`dance`, `id`)," + 
+					"INDEX `id_idx` (`id` ASC)," +
+					"CONSTRAINT `id_performer`" +
+					"FOREIGN KEY (`id`) REFERENCES `dancecap`.`Person` (`id`) " +
+					"ON DELETE CASCADE" + 
+					" ON UPDATE CASCADE);");
             return true;
 		}
 		catch (Exception e) {
@@ -64,37 +80,38 @@ public class Database {
 		}
 	}
 
-	public boolean addStudent(int id, String name, String major, int year, Style style) {
+	public boolean addPerson(int id, String name, Style style) {
 		try {
-			statement.executeUpdate("INSERT INTO `dancecap`.`Student` (`id`, `name`, `major`, `year`, `style`)"
-					+ " VALUES ('" + id + "', '" + name + "', '" + major + "', '" + year + "', '" + style.toString() + "');");
+
+			statement.executeUpdate("INSERT INTO `dancecap`.`Person` (`id`, `name`, `style`)"
+					+ " VALUES ('" + id + "', '" + name + "', '" + style.toString() + "');");
 		return true;
 		}
 		catch (Exception e) {
-            System.out.println("SQLException in addStudent(): " + e.getMessage());
+            System.out.println("SQLException in addPerson(): " + e.getMessage());
             return false;
 		}
 		
 	}
-	
-	public boolean addStudent(Student stu) {
-		try {
-			String majors = "";
-			for (String maj: stu.getMajor()) {
-				majors += "   "+ maj;
-			}
-			for (Style st: stu.getStyle()) {
-				statement.executeUpdate("INSERT INTO `dancecap`.`Student` (`id`, `name`, `major`, `year`, `style`)"
-						+ " VALUES ('" + stu.getID() + "', '" + stu.getName() + "', '" + majors + "', '" + stu.getYear() + "', '" + st.toString() + "');");
-			}
-		return true;
-		}
-		catch (Exception e) {
-            System.out.println("SQLException in addStudent(): " + e.getMessage());
-            return false;
-		}
-		
-	}
+//	
+//	public boolean addStudent(Student stu) {
+//		try {
+//			String majors = "";
+//			for (String maj: stu.getMajor()) {
+//				majors += "   "+ maj;
+//			}
+//			for (Style st: stu.getStyle()) {
+//				statement.executeUpdate("INSERT INTO `dancecap`.`Student` (`id`, `name`, `major`, `year`, `style`)"
+//						+ " VALUES ('" + stu.getID() + "', '" + stu.getName() + "', '" + majors + "', '" + stu.getYear() + "', '" + st.toString() + "');");
+//			}
+//		return true;
+//		}
+//		catch (Exception e) {
+//            System.out.println("SQLException in addStudent(): " + e.getMessage());
+//            return false;
+//		}
+//		
+//	}
 	
 	public Connection getConnection() {
 		return connection;

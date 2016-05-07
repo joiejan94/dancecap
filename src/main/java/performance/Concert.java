@@ -1,19 +1,20 @@
 package performance;
 import java.util.ArrayList;
+import members.Performer;
 
 import members.*;
 public class Concert {
 	
 	private String title;
 	private ArrayList<Person> choreographers;
-	private ArrayList<Person> dancers;
+	private ArrayList<Performer> dancers;
 	private ArrayList<Dance> dances;
 	private int year;
 	public Concert(String title, ArrayList<Dance> dances, int year) {
 		this.title = title;
 		this.dances = dances;
 		this.choreographers = new ArrayList<Person>();
-		this.dancers = new ArrayList<Person>();
+		this.dancers = new ArrayList<Performer>();
 		this.year = year;
 		
 		for (Dance dance: dances) {
@@ -22,7 +23,7 @@ public class Concert {
 					choreographers.add(choreographer);
 				}
 			}
-			for (Person dancer: dance.getDancers()) {
+			for (Performer dancer: dance.getDancers()) {
 				if (!dancers.contains(dancer)) {
 					choreographers.add(dancer);
 				}
@@ -42,7 +43,7 @@ public class Concert {
 	public ArrayList<Person> getChoreographers() {
 		return choreographers;
 	}
-	public ArrayList<Person> getDancers() {
+	public ArrayList<Performer> getDancers() {
 		return dancers;
 	}
 	public ArrayList<Dance> getDances() {

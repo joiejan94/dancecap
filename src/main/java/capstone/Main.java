@@ -1,5 +1,6 @@
 package capstone;
 
+import members.Person;
 import members.Student;
 import members.Style;
 import static spark.Spark.*;
@@ -28,14 +29,13 @@ public class Main {
             try {
               db.connect();
               db.createDatabase();
-              Student student = new Student("Jeff Volz", new Style[]{Style.BALLET, Style.TAP}, 701557689, new String[]{"Comp E"}, 2016);
-//              db.addStudent(701581208, "Johanna Jan", "Computer Science", 2016, Style.JAZZ);
-              db.addStudent(student);
-              ResultSet rs = db.getStatement().executeQuery("SELECT distinct name, style ,major FROM Student");
+//              Person human = new Person("Kimberly Iervoline",new Style[]{Style.HIPHOP},701346198);
+              db.addPerson(701346198, "Kimberly Iervoline", Style.HIPHOP);
+              ResultSet rs = db.getStatement().executeQuery("SELECT distinct id, name, style FROM Person");
 
               ArrayList<String> output = new ArrayList<String>();
               while (rs.next()) {
-                output.add( "Students: " + rs.getString("name") + ", Style: " + rs.getString("style") + ", Major: " + rs.getString("major"));
+                output.add( "Person id:" + rs.getString("id") + ", name: " + rs.getString("name") + ", Style: " + rs.getString("style"));
               }
 
               attributes.put("results", output);
