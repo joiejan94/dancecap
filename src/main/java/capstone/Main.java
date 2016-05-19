@@ -67,10 +67,13 @@ public class Main {
         get("/performance", (req, res) -> "Performance");
         get("/academics", (req, res) -> "Acedemics");
 
-        post("/testingform.php", (req, res) -> {
+        post("/testing", (req, res) -> {
         	Map<String, Object> attributes = new HashMap<>();
             try {
-              return new ModelAndView(attributes, "testingform.php");
+                ArrayList<String> testing = new ArrayList<String>();
+                testing.add("yoyoyo");
+            	attributes.put("test", testing);
+              return new ModelAndView(attributes, "testingonemoretime.html");
             } catch (Exception e) {
               attributes.put("message", "There was an error: " + e);
               return new ModelAndView(attributes, "error.ftl");
