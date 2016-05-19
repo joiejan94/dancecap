@@ -44,9 +44,20 @@ public class Database {
 
 	}
 	
+	public void createStatement() {
+		try {
+			statement = connection.createStatement();
+		}
+		catch (Exception e) {
+            System.out.println("SQLException in createStatment(): " + e.getMessage()); 
+
+		}
+
+	}
+	
 	public boolean createDatabase() {
 		try {             
-			statement = connection.createStatement();
+			createStatement();
 			statement.executeUpdate("CREATE DATABASE IF NOT EXISTS dancecap");
 			statement.executeUpdate("USE dancecap");
 			statement.executeUpdate("CREATE TABLE IF NOT EXISTS `dancecap`.`Person` (" +
@@ -63,16 +74,62 @@ public class Database {
 					"FOREIGN KEY (`id`) REFERENCES `dancecap`.`Person` (`id`) " +
 					"ON DELETE CASCADE" +
 					" ON UPDATE CASCADE);");
+			statement.executeUpdate("CREATE TABLE IF NOT EXISTS `dancecap`.`Dance` (" + 
+					"`id` INT NOT NULL, " +
+					"`name` VARCHAR(45) NOT NULL, " +
+					"`year` INT NOT NULL, PRIMARY KEY (`id`));");
+			statement.executeUpdate("CREATE TABLE IF NOT EXISTS `dancecap`.`Concert` (" +
+					"`id` INT NOT NULL," +
+					"`name` VARCHAR(45) NOT NULL," +
+					"`year` INT NOT NULL," +
+					"PRIMARY KEY (`id`));");
 			statement.executeUpdate("CREATE TABLE IF NOT EXISTS `dancecap`.`Performer` (" +
 					"`id` INT NOT NULL," +
-					"`dance` VARCHAR(45) NOT NULL," +
-					"PRIMARY KEY (`dance`, `id`)," + 
-					"INDEX `id_idx` (`id` ASC)," +
+					"`dance_id` INT NOT NULL," +
+					"PRIMARY KEY (`id`, `dance_id`)," +
+					"INDEX `id_dance_idx` (`dance_id` ASC)," +
 					"CONSTRAINT `id_performer`" +
-					"FOREIGN KEY (`id`) REFERENCES `dancecap`.`Person` (`id`) " +
-					"ON DELETE CASCADE" + 
-					" ON UPDATE CASCADE);");
-            return true;
+					"FOREIGN KEY (`id`)" +
+					"REFERENCES `dancecap`.`Person` (`id`)" +
+					"ON DELETE CASCADE " +
+					"ON UPDATE CASCADE," +
+					"CONSTRAINT `id_dance`" +
+					"FOREIGN KEY (`dance_id`)" +
+					"REFERENCES `dancecap`.`Dance` (`id`)" +
+					"ON DELETE CASCADE " +
+					"ON UPDATE CASCADE);");
+//			statement.executeUpdate("CREATE TABLE IF NOT EXISTS `dancecap`.`PerformerInDance` (" +
+//					"`dance_id` INT NOT NULL," +
+//					"`performer_id` INT NOT NULL," +
+//					"PRIMARY KEY (`dance_id`, `performer_id`)," +
+//					"INDEX `performer_id_idx` (`performer_id` ASC)," +
+//					"CONSTRAINT `performer_id`" +
+//					"FOREIGN KEY (`performer_id`)" +
+//					"REFERENCES `dancecap`.`Performer` (`id`)" +
+//					"ON DELETE CASCADE " +
+//					"ON UPDATE CASCADE," +
+//					"CONSTRAINT `dance_id`" +
+//					"FOREIGN KEY (`dance_id`)" +
+//					"REFERENCES `dancecap`.`Dance` (`id`)" +
+//					"ON DELETE CASCADE " +
+//					"ON UPDATE CASCADE);");
+			
+			statement.executeUpdate("CREATE TABLE IF NOT EXISTS `dancecap`.`DanceInConcert` (" +
+					  "`concert_id` INT NOT NULL," +
+					  "`dance_id` INT NOT NULL," +
+					  "PRIMARY KEY (`concert_id`, `dance_id`)," +
+					  "INDEX `dance_id_idx` (`dance_id` ASC)," +
+					  "CONSTRAINT `c_id`" +
+					    "FOREIGN KEY (`concert_id`)" +
+					    "REFERENCES `dancecap`.`Concert` (`id`)" +
+					    "ON DELETE CASCADE " +
+					    "ON UPDATE CASCADE," +
+					  "CONSTRAINT `d_id`" +
+					    "FOREIGN KEY (`dance_id`)" +
+					    "REFERENCES `dancecap`.`Dance` (`id`)" +
+					    "ON DELETE CASCADE " +
+					    "ON UPDATE CASCADE);");
+			return true;
 		}
 		catch (Exception e) {
             System.out.println("SQLException in createDatabase(): " + e.getMessage());

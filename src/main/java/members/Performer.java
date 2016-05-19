@@ -9,9 +9,22 @@ public class Performer extends Person {
 		this.dances = dances;
 	}
 	
+	public Performer(String name, Style[] style, int ID) {
+		super(name, style, ID);
+		this.dances = new ArrayList<Dance>();
+	}
+
 	public ArrayList<Dance> getDances() {
 		return dances;
 	}
 
-	
+	@Override
+	public boolean equals(Object o) {
+		if (this.ID == ((Performer)o).ID) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 }

@@ -2,7 +2,11 @@ package capstone;
 
 import members.Person;
 import members.Student;
+import members.Performer;
 import members.Style;
+import performance.Concert.Order;
+import performance.Dance;
+import performance.Concert;
 import static spark.Spark.*;
 import spark.*;
 import spark.template.freemarker.FreeMarkerEngine;
@@ -42,11 +46,11 @@ public class Main {
                 students.add( "name: " + rs_st.getString("name") + ", year: " + rs_st.getString("year") + ", Style: " + rs_st.getString("style"));
               }
 
-              ResultSet rs_per = db.getStatement().executeQuery("SELECT distinct name, dance "
+              ResultSet rs_per = db.getStatement().executeQuery("SELECT distinct name, dance_id "
                 		+ "FROM dancecap.Performer perf join dancecap.Person p where perf.id = p.id;");
               
               while (rs_per.next()) {
-                  performers.add( "name: " + rs_per.getString("name") + ", dance: " + rs_per.getString("dance"));
+                  performers.add( "name: " + rs_per.getString("name") + ", dance: " + rs_per.getInt("dance_id"));
 
               }
               attributes.put("students", students);
@@ -64,7 +68,82 @@ public class Main {
           }, new FreeMarkerEngine());
         
 
-        get("/performance", (req, res) -> "Performance");
+        get("/performance", (req, res) -> {
+
+        	 Map<String, Object> attributes = new HashMap<>();
+             try {
+
+               db.connect();
+               db.createDatabase();
+
+               ArrayList<Performer> performers = new ArrayList<Performer>();
+               ArrayList<Dance> dances = new ArrayList<Dance>();
+//               ResultSet rs_st = db.getStatement().executeQuery("select performer.id performer_id, person.name performers,"
+//               		+ " dance.id, dance.name title from person join performer on person.id = performer.id join"
+//               		+ " dance on performer.dance_id = dance.id order by id asc;");
+
+               ResultSet rs_st = db.getStatement().executeQuery("select performer.id performer_id, person.name performers, "
+               		+ " dance.id dance_id, dance.name title from person join performer on person.id = performer.id join "
+               		+ " dance on performer.dance_id = dance.id order by performer_id;");
+
+               while (rs_st.next()) {
+            	   Dance tempDance = new Dance(rs_st.getInt("dance_id"),rs_st.getString("title"));
+            	   if (!dances.contains(tempDance)) {
+            		   dances.add(tempDance);
+            	   }
+            	   Style[] styles = {Style.BALLET};
+
+            	   Performer tempPerf = new Performer(rs_st.getString("performers"),styles, rs_st.getInt("performer_id"));
+            	   if (!performers.contains(tempPerf)) {
+            		   tempPerf.getDances().add(tempDance);
+            		   performers.add(tempPerf);
+            	   }
+            	   else if (performers.contains(tempPerf)) {
+            		   performers.get(performers.size()-1).getDances().add(tempDance);
+            	   }
+            	   
+               }
+               
+               
+               ArrayList<String> danceNames = new ArrayList<String>();
+               for (Dance dance: dances) {
+            	   danceNames.add(dance.getTitle());
+               }
+               System.out.println(danceNames.toString());
+               
+               Concert concert = new Concert(1,"Dance Connections",dances,2016);
+               Order order = concert.createConcertOrder(dances.get(0));
+
+               
+               
+               ArrayList<String> orderNames = new ArrayList<String>();
+               for (Dance o: order.getOrderOfDances()) {
+            	   orderNames.add(o.getTitle());
+               }
+               System.out.println(orderNames.toString());
+
+               ArrayList<String> performerNames = new ArrayList<String>();
+               for (Performer p: performers) {
+            	   performerNames.add(p.getName());
+               }
+                              
+               attributes.put("performers", performerNames);
+               attributes.put("dances", danceNames);
+               attributes.put("order", orderNames);
+               attributes.put("numQuick", order.numQuickChanges());
+ 
+               return new ModelAndView(attributes, "performance.html");
+             } catch (Exception e) {
+               attributes.put("message", "There was an error: " + e);
+               System.out.println("SQLException: " + e.getMessage());
+               return new ModelAndView(attributes, "error.ftl");
+             } finally {
+               if (db.getConnection() != null) {
+             	  db.disconnect();
+               }
+             }
+           }, new FreeMarkerEngine());
+
         get("/academics", (req, res) -> "Acedemics");
 
         post("/testing", (req, res) -> {

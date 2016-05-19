@@ -1,9 +1,9 @@
 package performance;
 import java.util.ArrayList;
-import members.Performer;
+import java.util.Comparator;
 
 import members.*;
-public class Dance {
+public class Dance implements Comparable<Dance>{
 	private int id;
 	private String title;
 	private Style style;
@@ -19,6 +19,14 @@ public class Dance {
 		this.choreographers = choreographers;
 		this.dancers = dancers;
 		this.year = year;
+	}
+	
+	public Dance(int id, String title) {
+		this.id = id;
+		this.title = title;
+		this.dancers = new ArrayList<Performer>();
+		this.choreographers = new ArrayList<Person>();
+		
 	}
 
 	private boolean addDancer(Performer dancer) {
@@ -68,6 +76,27 @@ public class Dance {
 	public int getYear() {
 		return year;
 	}
+
+	@Override
+	public int compareTo(Dance o) {
+		if (this.id > o.id) {
+			return 1;
+		}
+		else if (this.id < o.id) {
+			return -1;
+		}
+		else {
+			return 0;
+		}
+	}
 	
-	
+	@Override
+	public boolean equals(Object o) {
+		if (this.id == ((Dance)o).id) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 }

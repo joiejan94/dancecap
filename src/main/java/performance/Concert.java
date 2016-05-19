@@ -35,25 +35,37 @@ public class Concert {
 		
 	}
 	
-	private class Order {
+	public class Order {
 		private ArrayList<Dance> orderOfDances;
 		private int numQuickChanges;
 		
-		private Order() {
+		public Order() {
 			orderOfDances = new ArrayList<Dance>();
 			numQuickChanges = 0;
 		}
 		
+		public ArrayList<Dance> getOrderOfDances() {
+			return orderOfDances;
+		}
+		
+		public int numQuickChanges() {
+			return numQuickChanges;
+		}
 	}
 	
-	private Order createConcertOrder(Dance first) {
+	
+	public Order createConcertOrder(Dance first) {
 		Order order = new Order();
 		// get dances from concert
 		HashMap<Dance,Integer> dIndex = new HashMap<Dance,Integer>();
-		int[] dancesByNum = new int[dances.size()];
+		int[] dancesByNum = new int[dances.size()-1];
+		int index = 0;
 		for (int i = 0; i < dances.size(); i++){
 			dIndex.put(dances.get(i),i);
-			dancesByNum[i] = i;
+			if (!dances.get(i).equals(first)) {
+				dancesByNum[index] = i;
+				index += 1;
+			}
 		}
 		// creating adjacency matrix that represents graph
 		int weights[][] = new int[dances.size()][dances.size()];	// 2d array of weights

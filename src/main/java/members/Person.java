@@ -4,7 +4,7 @@ import members.Style;
 public class Person implements Comparable<Person>{
 	private String name;
 	private Style[] style;
-	private int ID;
+	protected int ID;
 	public Person(String name, Style[] style, int ID) {
 		this.name = name;
 		this.style = style;
