@@ -1,8 +1,7 @@
 package performance;
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import members.Performer;
+import java.util.Map;
 
 import members.*;
 public class Concert {
@@ -36,13 +35,27 @@ public class Concert {
 		
 	}
 	
-	private ArrayList<Dance> createConcertOrder() {
-		ArrayList<Dance> order = new ArrayList<Dance>();
+	private class Order {
+		private ArrayList<Dance> orderOfDances;
+		private int numQuickChanges;
+		
+		private Order() {
+			orderOfDances = new ArrayList<Dance>();
+			numQuickChanges = 0;
+		}
+		
+	}
+	
+	private Order createConcertOrder(Dance first) {
+		Order order = new Order();
 		// get dances from concert
 		HashMap<Dance,Integer> dIndex = new HashMap<Dance,Integer>();
+		int[] dancesByNum = new int[dances.size()];
 		for (int i = 0; i < dances.size(); i++){
 			dIndex.put(dances.get(i),i);
+			dancesByNum[i] = i;
 		}
+		// creating adjacency matrix that represents graph
 		int weights[][] = new int[dances.size()][dances.size()];	// 2d array of weights
 		for (Performer p: dancers){ // loop through each dancer
 			if (p.getDances().size() >= 2){ // check size of dances
@@ -55,7 +68,75 @@ public class Concert {
 				} // for dances
 			} // if dance size
 		} // for performers
+		
+		// Brute force algorithm for shortest path
+		ArrayList<int[]> perms = permutation(dIndex.get(first),dancesByNum);
+		int[] bestOrder = new int[dances.size()]; int minChanges = 10000; int current = 0;
+		for (int[] perm: perms) {
+			current = calcWeights(weights,perm);
+			if (current < minChanges) {
+				minChanges = current;
+				bestOrder = perm;
+			}
+		}
+		
+		for (int o: bestOrder) {
+			order.orderOfDances.add((Dance)getKeyFromValue(dIndex,o));
+		}
+		order.numQuickChanges = minChanges;
+		
 		return order;
+	}
+	
+	 public static Object getKeyFromValue(Map hm, Object value) {
+		    for (Object o : hm.keySet()) {
+		      if (hm.get(o).equals(value)) {
+		        return o;
+		      }
+		    }
+		    return null;
+		  }
+	 
+	private int calcWeights(int[][] matrix, int[] perm) {
+		int totalWeight = 0;
+		for (int i = 0; i < perm.length-1; i++) {
+			totalWeight += matrix[perm[i]][perm[i+1]];
+		}
+		return totalWeight;
+	}
+	
+	public ArrayList<int[]> permutation(int start, int[] dancelist) { 
+		ArrayList<int[]> perms = new ArrayList<int[]>();
+		int[] prefix = {start};
+	    permhelp(prefix, dancelist, perms); 
+	    return perms;
+	}
+
+	private void permhelp(int[] prefix, int[] dancelist,ArrayList<int[]> perms) {
+	    int n = dancelist.length;
+	    if (n == 0) {
+	    	 perms.add(prefix);
+	    }
+	    else {
+	        for (int i = 0; i < n; i++){
+	        	int[] newpre = new int[prefix.length+1];
+	        	int[] temp = new int[n-1];
+	        	for (int j = 0; j < n; j++) {
+	        		if (j < i) {
+	        			temp[j] = dancelist[j];
+	        		}
+	        		else if (j > i) {
+	        			temp[j-1] = dancelist[j];
+	        		}
+	        	}
+	        	
+	        	for (int j = 0; j < prefix.length; j++) {
+	        		newpre[j] = prefix[j];
+	        	}
+	        	newpre[prefix.length] = dancelist[i];
+	             permhelp(newpre, temp,perms);
+	        }
+	    }	    
 	}
 	
 	public int getID(){
